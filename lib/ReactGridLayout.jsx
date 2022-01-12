@@ -115,7 +115,8 @@ export default class ReactGridLayout extends React.Component<Props, State> {
     onResize: noop,
     onResizeStop: noop,
     onDrop: noop,
-    onDropDragOver: noop
+    onDropDragOver: noop,
+    hidePlaceholder: false
   };
 
   state: State = {
@@ -626,6 +627,7 @@ export default class ReactGridLayout extends React.Component<Props, State> {
     // we should ignore events from layout's children in Firefox
     // to avoid unpredictable jumping of a dropping placeholder
     // FIXME remove this hack
+
     if (
       isFirefox &&
       // $FlowIgnore can't figure this out
@@ -766,6 +768,8 @@ export default class ReactGridLayout extends React.Component<Props, State> {
       ...style
     };
 
+    console.log("react-grid-layout render");
+
     return (
       <div
         ref={innerRef}
@@ -782,7 +786,7 @@ export default class ReactGridLayout extends React.Component<Props, State> {
         {isDroppable &&
           this.state.droppingDOMNode &&
           this.processGridItem(this.state.droppingDOMNode, true)}
-        {this.placeholder()}
+        {!this.props.hidePlaceholder && this.placeholder()}
       </div>
     );
   }
